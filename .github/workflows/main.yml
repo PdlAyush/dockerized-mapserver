@@ -18,7 +18,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/csp_base
+        run: docker build . --file base.Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/csp_base
 
       - name: Docker Push
         run: docker push ${{ secrets.DOCKER_USERNAME }}/csp_base
