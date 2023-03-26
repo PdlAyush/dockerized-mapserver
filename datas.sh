@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-#Making directories
+#Making directories for dataset
 mkdir -p /storage/mapserver-datasets/earth/naturalearth 
 mkdir -p /storage/mapserver-datasets/earth/etopo1 
 mkdir -p /storage/mapserver-datasets/earth/bluemarble 
