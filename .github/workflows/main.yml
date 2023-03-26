@@ -1,4 +1,4 @@
-name: Docker build and push
+name: Push Docker images to GHCR
 
 on:
   push:
@@ -6,51 +6,43 @@ on:
       - master
 
 jobs:
-  build-and-push:
+  build-base-image:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Build base Docker image
+        run: docker build -f base.Dockerfile -t ghcr.io/${{ github.repository_owner }}/base-image:${{ github.sha }} .
 
       - name: Login to GHCR
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_PAT }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Cache base image layers
-        id: cache-base
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          file: base.Dockerfile
-          push: false
-          cache-from: type=local,src=/tmp/base-cache
-          cache-to: type=local,dest=/tmp/base-cache
-          target: base
-          tags: ghcr.io/${{ github.repository }}:base-${{ github.sha }}
+      - name: Push base Docker image to GHCR
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/base-image:${{ github.sha }}
 
-      - name: Build and push child image
-        uses: docker/build-push-action@v2
+  build-child-image:
+    runs-on: ubuntu-latest
+    needs: build-base-image
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build child Docker image
+        run: docker build -f child.Dockerfile -t ghcr.io/${{ github.repository_owner }}/child-image:${{ github.sha }} .
+
+      - name: Login to GHCR
+        uses: docker/login-action@v1
         with:
-          context: .
-          file: child.Dockerfile
-          push: true
-          cache-from: type=local,src=/tmp/child-cache
-          cache-to: type=local,dest=/tmp/child-cache
-          target: child
-          tags: ghcr.io/${{ github.repository }}:child-${{ github.sha }}
-          build-args: |
-            BASE_IMAGE=ghcr.io/${{ github.repository }}:base-${{ github.sha }}
-      - name: Save cache for base image
-        if: steps.cache-base.outputs.cache-hit == 'false'
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Push child Docker image to GHCR
         run: |
-          mkdir -p /tmp/base-cache
-          docker save $(docker images -q ghcr.io/${{ github.repository }}:base-${{ github.sha }}) | gzip > /tmp/base-cache/image.tar.gz
-      - name: Save cache for child image
-        if: steps.build-and-push.outputs.cache-hit == 'false'
-        run: |
-          mkdir -p /tmp/child-cache
-          docker save $(docker images -q ghcr.io/${{ github.repository }}:child-${{ github.sha }}) | gzip > /tmp/child-cache/image.tar.gz
+          docker push ghcr.io/${{ github.repository_owner }}/child-image:${{ github.sha }}
