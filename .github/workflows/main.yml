@@ -12,6 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Cache Docker layers and dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            /root/.cache/pip
+            /root/.cache/pipenv
+          key: ${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+
       - name: Build base Docker image
         run: docker build -f base.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/base-image:${{ github.sha }} .
 
@@ -32,6 +40,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Cache Docker layers and dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            /root/.cache/pip
+            /root/.cache/pipenv
+          key: ${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
 
       - name: Build child Docker image
         run: docker build -f child.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/child-image:${{ github.sha }} .
