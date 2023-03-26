@@ -1,4 +1,4 @@
-name: Push Docker images to GHCR
+name: Docker Build and Push
 
 on:
   push:
@@ -6,33 +6,30 @@ on:
       - master
 
 jobs:
-  build_and_push_images:
+  build-and-push:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Build base Docker image
-        run: |
-          docker build -t my-username/my-repo:base -f base.Dockerfile .
-        
-      - name: Login to GHCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Push base Docker image to GHCR
-        run: |
-          docker tag my-username/my-repo:base ghcr.io/my-username/my-repo:base
-          docker push ghcr.io/my-username/my-repo:base
+    - name: Login to GHCR
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build child Docker image
-        run: |
-          docker build -t my-username/my-repo:child -f child.Dockerfile .
-        
-      - name: Push child Docker image to GHCR
-        run: |
-          docker tag my-username/my-repo:child ghcr.io/my-username/my-repo:child
-          docker push ghcr.io/my-username/my-repo:child
+    - name: Build and Push Base Docker Image
+      run: |
+        docker build -f base.Dockerfile -t ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest .
+        docker push ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest
+
+    - name: Build and Push Child Docker Image
+      run: |
+        docker build -f child.Dockerfile -t ghcr.io/${{ github.repository }}/${{ env.CHILD_IMAGE_NAME }}:latest --build-arg BASE_IMAGE=ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}:latest .
+        docker push ghcr.io/${{ github.repository }}/${{ env.CHILD_IMAGE_NAME }}:latest
+
+    env:
+      IMAGE_NAME: my-base-image
+      CHILD_IMAGE_NAME: my-child-image
