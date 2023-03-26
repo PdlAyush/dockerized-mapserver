@@ -12,7 +12,7 @@ MAP
     "init=epsg:4326"
   END
 
-  #This format will be requested by CosmoScout VR for elevation data.
+  # This format will be requested by CosmoScout VR for elevation data.
   OUTPUTFORMAT
     NAME "tiffGray"
     DRIVER "GDAL/GTiff"
@@ -38,7 +38,7 @@ MAP
     END
   END
 
-  
+  INCLUDE "earth/bluemarble/bluemarble.map"
   INCLUDE "earth/naturalearth/naturalearth.map"
-  
+  INCLUDE "earth/etopo1/etopo1.map"
 END

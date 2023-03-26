@@ -1,9 +1,6 @@
 
 FROM ubuntu:18.04
 
-#Copying apache config file
-COPY etc /etc
-
 #Following provides timezone while installing apache2
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone;
 
@@ -20,7 +17,10 @@ RUN apt-get update && \
                         libmapscript-perl \
                         libapache2-mod-fcgid \
     && rm -rf /var/lib/apt/lists/*;
-    
+ 
+#Copying apache config file
+COPY etc /etc 
+  
 RUN a2enmod cgi fcgid
 
 WORKDIR /storage/mapserver-datasets
