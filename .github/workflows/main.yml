@@ -32,7 +32,7 @@ jobs:
 
       - name: Push base Docker image to GHCR
         run: |
-          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/base-image:${{ github.sha }}
+          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/base-image:${{ github.ref }}
 
   build-child-image:
     runs-on: ubuntu-latest
@@ -61,4 +61,4 @@ jobs:
 
       - name: Push child Docker image to GHCR
         run: |
-          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/child-image:${{ github.sha }}
+          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/child-image:${{ github.ref }}
