@@ -1,6 +1,6 @@
 FROM ayushpdl/csp_base:latest
 
-COPY Example-Datasets /Example-Datasets
+COPY storage /storage
 WORKDIR /tmp
 
 #Copying the shell file which will download the dataset
@@ -15,5 +15,4 @@ RUN apt-get update \
 
 RUN ./datas.sh
 RUN rm -rf /tmp/*
-RUN rm -rf /Example-Datasets/*
 WORKDIR /storage/mapserver-datasets

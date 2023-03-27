@@ -1,19 +1,5 @@
 #!/bin/bash
 
-
-#Making directories for dataset
-mkdir -p /storage/mapserver-datasets/earth/naturalearth 
-mkdir -p /storage/mapserver-datasets/earth/etopo1 
-mkdir -p /storage/mapserver-datasets/earth/bluemarble 
-
-#Copying .map files and epsg file from our Example-Datasets directory
-cp /Example-Datasets/epsg /storage/mapserver-datasets
-cp /Example-Datasets/meta.map /storage/mapserver-datasets
-
-cp /Example-Datasets/bluemarble/bluemarble.map /storage/mapserver-datasets/earth/bluemarble
-cp /Example-Datasets/etopo1/etopo1.map /storage/mapserver-datasets/earth/etopo1
-cp /Example-Datasets/naturalearth/naturalearth.map /storage/mapserver-datasets/earth/naturalearth
-
 #Downloading our dataset
 curl -s -L -o /tmp/NE1_HR_LC_SR_W_DR.zip https://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/raster/NE1_HR_LC_SR_W_DR.zip
 curl -s -L -o /tmp/ETOPO1_Ice_c_geotiff.zip https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/cell_registered/georeferenced_tiff/ETOPO1_Ice_c_geotiff.zip
