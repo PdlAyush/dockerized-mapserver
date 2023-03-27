@@ -2,8 +2,8 @@ name: Push Docker images to GHCR
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '**'
 
 jobs:
   build-base-image:
@@ -14,9 +14,8 @@ jobs:
 
       - name: Build base Docker image
         run: |
-          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-          docker build -f base.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/base-image:${DOCKER_TAG} .
-
+          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          docker build -f base.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/cosmoscout-mapserver-base:${DOCKER_TAG} .
       - name: Login to GHCR
         uses: docker/login-action@v1
         with:
@@ -26,8 +25,8 @@ jobs:
 
       - name: Push base Docker image to GHCR
         run: |
-          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/base-image:${DOCKER_TAG}
+          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/cosmoscout-mapserver-base:${DOCKER_TAG}
   build-child-image:
     runs-on: ubuntu-latest
     needs: build-base-image
@@ -37,9 +36,8 @@ jobs:
 
       - name: Build child Docker image
         run: |
-          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-          docker build -f child.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/child-image:${DOCKER_TAG} .
-
+          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          docker build -f child.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/cosmoscout-mapserver-example:${DOCKER_TAG} .
       - name: Login to GHCR
         uses: docker/login-action@v1
         with:
@@ -49,5 +47,5 @@ jobs:
 
       - name: Push child Docker image to GHCR
         run: |
-          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
-          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/child-image:${DOCKER_TAG}
+          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/cosmoscout-mapserver-example:${DOCKER_TAG}
