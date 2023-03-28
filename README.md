@@ -1,6 +1,6 @@
 # Docker-Mapserver
 
-A dockerized mapserver for CosmoScout [csp-lod bodies.](https://github.com/cosmoscout/cosmoscout-vr/tree/main/plugins/csp-lod-bodies#readme). The repo contains two dockerfiles `base.Dockerfile` and `example.Dockerfile`.
+A dockerized mapserver for CosmoScout [csp-lod bodies](https://github.com/cosmoscout/cosmoscout-vr/tree/main/plugins/csp-lod-bodies#readme). The repo contains two dockerfiles `base.Dockerfile` and `example.Dockerfile`.
 
 ## base.Dockerfile
 This docker mapserver allows user to use their own dataset. The webserver is exposed on port 80.
