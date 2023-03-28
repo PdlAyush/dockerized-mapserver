@@ -2,7 +2,7 @@
 
 A dockerized mapserver for CosmoScout [csp-lod bodies.](https://github.com/cosmoscout/cosmoscout-vr/tree/main/plugins/csp-lod-bodies#readme). The repo contains two dockerfiles `base.Dockerfile` and `example.Dockerfile`.
 
-##base.Dockerfile
+## base.Dockerfile
 This docker mapserver allows user to use their own dataset. The webserver is exposed on port 80.
 
 
@@ -20,11 +20,11 @@ image_name
 The command above runs a container, binds `localhosts port 8080 to containers port 80`, and `mounts the dataset in the pwd to containers  /storage/mapserver-datasets `directory.
 
 
-##example.Dockerfile
+## example.Dockerfile
 This docker file uses `base.Dockerfile` as its base image and contains NASA's `Blue Marble` and the `Natural Earth image` datasets and `ETOPO1` elevation data. The dataset used by this container are stored in `storage` directory in this repository. The shell file `datas.sh` downloads the dataset and copies them to the containers working directory.
 
 
-###To build a image:
+### To build a image:
 ``` console
 docker buildx build -f example.Dockerfile . -t image_name
 ```
