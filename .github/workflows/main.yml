@@ -2,8 +2,8 @@ name: Push Docker images to GHCR
 
 on:
   push:
-    tags:
-      - '**'
+    branches:
+      - master
 
 jobs:
   build-base-image:
