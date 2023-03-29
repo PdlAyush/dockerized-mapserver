@@ -17,7 +17,7 @@ docker run -p 8080:80 \
 -v "$(pwd)":/storage/mapserver-datasets \  
 image_name
 ```
-The command above runs a container, binds `localhost port 8080 to containers port 80`, and `mounts the dataset in the pwd to containers  /storage/mapserver-datasets `directory.
+The command above runs a container, binds `localhost port 8080 to container port 80`, and `mounts the dataset in the pwd to containers  /storage/mapserver-datasets `directory.
 
 
 ## example.Dockerfile
