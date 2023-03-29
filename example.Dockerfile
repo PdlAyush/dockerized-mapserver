@@ -1,4 +1,4 @@
-FROM ayushpdl/csp_base:latest
+FROM ghcr.io/pdlayush/mapserver-base:latest
 
 COPY storage /storage
 WORKDIR /tmp
