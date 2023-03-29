@@ -1,4 +1,4 @@
-FROM ghcr.io/pdlayush/mapserver-base:latest
+FROM ghcr.io/pdlayush/mapserver-base:v4.0.0
 
 COPY storage /storage
 WORKDIR /tmp
