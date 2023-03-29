@@ -36,7 +36,7 @@ To ensure that everything is working as intended, one can simply disable apache2
 ``` console
 service apache2 stop
 
-And see if you can access the dataset via following links:
+And see if you can access the following links:
 # EPSG:4326
 http://localhost:8080/cgi-bin/mapserv?map=/storage/mapserver-datasets/meta.map&service=wms&version=1.3.0&request=GetMap&layers=earth.naturalearth.rgb&bbox=-90,-180,90,180&width=1600&height=800&crs=epsg:4326&format=pngRGB
 
