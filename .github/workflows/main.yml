@@ -34,7 +34,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build child Docker image
+      - name: Build example Docker image
         run: |
           DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
           docker buildx build -f example.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/mapserver-example:${DOCKER_TAG} .
@@ -45,7 +45,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
 
-      - name: Push child Docker image to GHCR
+      - name: Push example Docker image to GHCR
         run: |
           DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
           docker push ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/mapserver-example:${DOCKER_TAG}
