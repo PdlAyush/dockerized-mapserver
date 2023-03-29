@@ -21,7 +21,7 @@ The command above runs a container, binds `localhosts port 8080 to containers po
 
 
 ## example.Dockerfile
-This docker file uses `base.Dockerfile` as its base image and contains NASA's `Blue Marble` and the `Natural Earth image` datasets and `ETOPO1` elevation data. The shell file `datas.sh` downloads the dataset and copies them to the containers working directory. The `storage` file in the repository consists of the `epsg` and `.map` files.
+This docker file uses `base.Dockerfile` as its base image and contains NASA's `Blue Marble` and the `Natural Earth image` datasets and `ETOPO1` elevation data. The shell file `datas.sh` downloads the dataset and copies them to the containers working directory. The `storage` directory in the repository consists of the `epsg` and `.map` files.
 
 
 ### To build a image:
@@ -34,7 +34,7 @@ docker run -p 8080:80 image_name
 ```
 To ensure that everything is working as intended, one can simply disable apache2 using the following command:
 ``` console
-service apache2 stop 
+service apache2 stop
 
 And see if you can access the dataset via following links:
 # EPSG:4326
