@@ -1,4 +1,3 @@
-
 name: Push Docker images to GHCR
 
 on:
@@ -35,16 +34,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build example Docker image
-        run: |
-          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
-          docker buildx build --pull -f example.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/mapserver-example:${DOCKER_TAG} .
       - name: Login to GHCR
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GHCR_PAT }}
+        
+      - name: Build example Docker image
+        run: |
+          DOCKER_TAG=$(echo "${{ github.ref }}" | sed 's/refs\/tags\///')
+          docker buildx build --pull -f example.Dockerfile -t ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/mapserver-example:${DOCKER_TAG} .
 
       - name: Push example Docker image to GHCR
         run: |
